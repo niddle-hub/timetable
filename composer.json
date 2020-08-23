@@ -1,0 +1,6 @@
+{
+    "require": {
+        "phpoffice/phpspreadsheet": "^1.12",
+        "digitalstars/simplevk": "^2.12"
+    }
+}
