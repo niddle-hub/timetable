@@ -17,9 +17,9 @@ $data = $vk->initVars($id, $message, $payload, $user_id, $type);
 $b_keys = $vk->buttonText('Открыть кейсы', 'green', ['command' => 'keys']); //
 $b_me = $vk->buttonText('Мой кабинет', 'white', ['command' => 'me']); //
 $b_help = $vk->buttonText('Поддержка', 'red', ['command' => 'help']); //
-$b_50 = $vk->buttonText('49 ₽', 'white', ['command' => '50']);
-$b_150 = $vk->buttonText('149 ₽', 'green', ['command' => '150']);
-$b_250 = $vk->buttonText('249 ₽', 'blue', ['command' => '250']);
+$b_29 = $vk->buttonText('29 ₽', 'white', ['command' => '29']);
+$b_59 = $vk->buttonText('59 ₽', 'green', ['command' => '59']);
+$b_99 = $vk->buttonText('99 ₽', 'blue', ['command' => '99']);
 $b_wallet = $vk->buttonText('Кошелёк', 'blue', ['command' => 'wallet']); //
 $b_stat = $vk->buttonText('Статистика', 'green', ['command' => 'stat']); //
 $b_back = $vk->buttonText('Меню', 'red', ['command' => 'back']); //
@@ -50,7 +50,7 @@ if($type == 'message_new'){
 		}
 
 		if($payload=='keys'){
-			$vk->sendButton($id, "Описание кейсов",[[$b_50, $b_150, $b_250],[$b_back]]);
+			$vk->sendButton($id, "Описание кейсов",[[$b_29, $b_59, $b_99],[$b_back]]);
 		}
 
 		if($payload=='me'){
@@ -73,36 +73,36 @@ if($type == 'message_new'){
 			$vk->reply("ID: $id\nПополнений баланса: ". $userdata['pays']."\nКуплено кейсов: ". $userdata['cases']);
 		}
 
-		if ($payload=='50'){
-			if($userdata['balance'] >= 49){
+		if ($payload=='29'){
+			if($userdata['balance'] >= 29){
 				$users = R::load('app', $userdata['id']);
-				$users->balance = $userdata['balance'] - 49;
+				$users->balance = $userdata['balance'] - 29;
 				R::store($users);
 				$vk->reply(rand(1,100000));
 			} else {
-				$vk->sendButton($id, "Недостаточно средств, пожалуйста пополните баланс ещё на ".(49 - $userdata['balance'])." ₽", [[$b_pay],[$b_back]]);
+				$vk->sendButton($id, "Недостаточно средств, пожалуйста пополните баланс ещё на ".(29 - $userdata['balance'])." ₽", [[$b_pay],[$b_back]]);
 			}
 		}
 
-		if ($payload=='150'){
-			if($userdata['balance'] >= 149){
+		if ($payload=='59'){
+			if($userdata['balance'] >= 59){
 				$users = R::load('app', $userdata['id']);
-				$users->balance = $userdata['balance'] - 149;
+				$users->balance = $userdata['balance'] - 59;
 				R::store($users);
 				$vk->reply(rand(1,100000));
 			} else {
-				$vk->sendButton($id, "Недостаточно средств, пожалуйста пополните баланс ещё на ".(149 - $userdata['balance'])." ₽", [[$b_pay],[$b_back]]);
+				$vk->sendButton($id, "Недостаточно средств, пожалуйста пополните баланс ещё на ".(59 - $userdata['balance'])." ₽", [[$b_pay],[$b_back]]);
 			}
 		}
 
-		if ($payload=='250'){
-			if($userdata['balance'] >= 249){
+		if ($payload=='99'){
+			if($userdata['balance'] >= 99){
 				$users = R::load('app', $userdata['id']);
-				$users->balance = $userdata['balance'] - 249;
+				$users->balance = $userdata['balance'] - 99;
 				R::store($users);
 				$vk->reply(rand(1,100000));
 			} else {
-				$vk->sendButton($id, "Недостаточно средств, пожалуйста пополните баланс ещё на ".(249 - $userdata['balance'])." ₽", [[$b_pay],[$b_back]]);
+				$vk->sendButton($id, "Недостаточно средств, пожалуйста пополните баланс ещё на ".(99 - $userdata['balance'])." ₽", [[$b_pay],[$b_back]]);
 			}
 		}
 
