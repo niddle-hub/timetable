@@ -21,3 +21,5 @@ if (!empty($txt)){
 		R::store($keys);
 	}
 }
+
+R::exec('UPDATE `keys` SET `is_given` = 0 WHERE `is_given` = 1, `quality` = 4');

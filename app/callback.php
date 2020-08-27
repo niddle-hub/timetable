@@ -74,6 +74,7 @@ switch ($response['type']) {
 		if(!empty($userdata)){
 			$users = R::load('app', $userdata['id']);
 			$users->balance = $userdata['balance'] + $donate['amount'];
+			$users->pays = $userdata['pays'] + 1;
 			R::store($users);
 			send($donate['user'], "Ваш баланс пополнен на: ".$donate['amount']." рублей!", $TOKEN);
 		} else {

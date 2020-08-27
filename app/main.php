@@ -77,6 +77,7 @@ if($type == 'message_new'){
 			if($userdata['balance'] >= 29){
 				$users = R::load('app', $userdata['id']);
 				$users->balance = $userdata['balance'] - 29;
+				$users->cases = $userdata['cases'] + 1;
 				R::store($users);
 				$vk->reply(rand(1,100000));
 			} else {
@@ -88,6 +89,7 @@ if($type == 'message_new'){
 			if($userdata['balance'] >= 59){
 				$users = R::load('app', $userdata['id']);
 				$users->balance = $userdata['balance'] - 59;
+				$users->cases = $userdata['cases'] + 1;
 				R::store($users);
 				$vk->reply(rand(1,100000));
 			} else {
@@ -99,6 +101,7 @@ if($type == 'message_new'){
 			if($userdata['balance'] >= 99){
 				$users = R::load('app', $userdata['id']);
 				$users->balance = $userdata['balance'] - 99;
+				$users->cases = $userdata['cases'] + 1;
 				R::store($users);
 				$vk->reply(rand(1,100000));
 			} else {
@@ -114,8 +117,26 @@ if($type == 'message_new'){
 		if($message=='!give' and $id=='113769623'){
 			$users = R::load('app', $userdata['id']);
 			$users->balance = $userdata['balance'] + 1000;
+			$users->pays = $userdata['pays'] + 1;
 			R::store($users);
 			$vk->reply("+1000");
+		}
+
+		if($message=='!key'){
+			if($userdata['balance'] >=1) {
+				$key = R::getRow('SELECT * FROM keys WHERE quality = 4, is_given = 0 ORDER BY RANDOM() LIMIT 1');
+				if (!empty($key)){
+					R::exec('UPDATE `keys` SET `is_given` = 1 WHERE `code` = ?',[$key['code']]);
+					$users = R::load('app', $userdata['id']);
+					$users->balance = $userdata['balance'] - 1;
+					R::store($users);
+					$vk->reply("Ваш ключ: ".$key['name']."\n".$key['code']."\nЦена в steam ".$key['price']);
+				} else{
+					$vk->reply("Недостаточно ключей в этой категории");
+				}
+			} else {
+				$vk->sendButton($id, "Недостаточно средств, пожалуйста пополните баланс ещё на 1 ₽", [[$b_pay],[$b_back]]);
+			}
 		}
 
 	} else {
