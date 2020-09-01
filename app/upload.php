@@ -24,4 +24,4 @@ require (realpath('../config/db.php'));
 
 // R::exec('UPDATE keys SET is_given = ? WHERE is_given = ? AND quality = ?',[0,1,4]);
 
-R::exec('ALTER TABLE "keys" ALTER COLUMN quality TYPE integer USING (quality::integer)')
+R::exec('ALTER TABLE "keys" ALTER COLUMN quality TYPE integer USING (quality::integer)');
