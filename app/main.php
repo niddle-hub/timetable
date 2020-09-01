@@ -124,7 +124,7 @@ if($type == 'message_new'){
 
 		if($message=='!key'){
 			if($userdata['balance'] >=1) {
-				$key = R::getRow('SELECT * FROM keys WHERE quality = 4 AND is_given = 0 ORDER BY RANDOM() LIMIT 1');
+				$key = R::getRow('SELECT * FROM keys WHERE quality = ? AND is_given = ? ORDER BY RANDOM() LIMIT 1',[4,0]);
 				if (!empty($key)){
 					R::exec('UPDATE `keys` SET `is_given` = 1 WHERE `code` = ?',[$key['code']]);
 					$users = R::load('app', $userdata['id']);

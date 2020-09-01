@@ -22,4 +22,4 @@ if (!empty($txt)){
 	}
 }
 
-R::exec('UPDATE `keys` SET `is_given` = 0 WHERE `is_given` = 1 AND `quality` = 4');
+R::exec('UPDATE keys SET is_given = ? WHERE is_given = ? AND quality = ?',[0,1,4]);
