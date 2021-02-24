@@ -1,8 +1,10 @@
 <?php
-require 'config/loader.php';
 
+include 'ExcelParser.php';
+include 'redbeanphp/connect.php';
 use DigitalStar\vk_api\vk_api;
-$excel = new excel();
+
+$ExcelParser = new ExcelParser("./documents/schedule.xlsx");
 
 //-- PARAMS --//
 
@@ -101,18 +103,18 @@ if($type == 'message_new'){
 		$users = R::load('users', $userdata['id']);
 		$users->waitgroup = true;
 		R::store($users);
-		$groups=$excel->getGroupsList();
+		$groups=$ExcelParser->GetGroupsList();
 		$vk->sendButton($id,"&#9999; Напиши свою группу!\n&#128203; Список доступных групп:\n".implode(PHP_EOL, $groups),[[$B_BACK]]);
 	}	
 
 	if($payload=='today' or mb_strtolower($message)=="сегодня"){
-		$Timetable = $excel->getTimetable($userdata['group'], $today);
+		$Timetable = $ExcelParser->GetTimetable($userdata['group'], $today);
 		$str="\nГруппа: ".$userdata['group'];
 		$vk->reply($Timetable.str_repeat(".", strlen($str)).$str);
 	}
 
 	if($payload=='tomorrow' or mb_strtolower($message)=="завтра"){
-		$Timetable = $excel->getTimetable($userdata['group'], $tomorrow);
+		$Timetable = $ExcelParser->GetTimetable($userdata['group'], $tomorrow);
 		$str="\nГруппа: ".$userdata['group'];
 		$vk->reply($Timetable.str_repeat(".", strlen($str)).$str);
 	}
@@ -121,18 +123,18 @@ if($type == 'message_new'){
 		$users = R::load('users', $userdata['id']);
 		$users->waitdate = true;
 		R::store($users);
-		$vk->sendButton($id,"Введи дату &#128197;\n".$excel->getTimes(),[[$B_CANCEL]]);
+		$vk->sendButton($id,"Введи дату &#128197;\n".$ExcelParser->GetDates(),[[$B_CANCEL]]);
 	}
 
 	if($userdata['waitdate'] and $payload!='cancel'){
-		$Timetable = $excel->getTimetable($userdata['group'] ,$message);
+		$Timetable = $ExcelParser->GetTimetable($userdata['group'] ,$message);
 		$str="\nГруппа: ".$userdata['group'];
 		$vk->reply($Timetable.str_repeat(".", strlen($str)).$str);
 	}
 
 	if($userdata['waitgroup'] and $payload!='back'){
 		$message=mb_strtoupper($message);
-		$GroupsList=$excel->getGroupsList();
+		$GroupsList=$ExcelParser->GetGroupsList();
 		if(in_array("🔹".$message, $GroupsList)){
 			$users = R::load('users', $userdata['id']);
 			$users->group = $message;
@@ -145,9 +147,6 @@ if($type == 'message_new'){
 	}
 
 	if ($message=="!upload" and $id==113769623) {
-		// $fwd_attachments = $data->object->fwd_messages;
-		// if(!empty($fwd_attachments)){}
-
 		$attachments = $data->object->attachments;
 		if(!empty($attachments)){
 			switch ($attachments[0]->type) {
