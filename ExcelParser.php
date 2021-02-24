@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet;
 class ExcelParser
 {
 	private $FilePath;
-	private $Spreadsheet;
+	private $Spreadsheet = PhpOffice\PhpSpreadsheet\IOFactory::load($this->$FilePath);
 	private $WorksheetData;
 	private $WeekDays;
 	private $SubjectTimes;
@@ -21,7 +21,7 @@ class ExcelParser
 	public function __construct (string $FilePath)
 	{
 		$this->$FilePath = $FilePath;
-		$this->$Spreadsheet = PhpOffice\PhpSpreadsheet\IOFactory::load($this->$FilePath);
+		//$this->$Spreadsheet = PhpOffice\PhpSpreadsheet\IOFactory::load($this->$FilePath);
 		$this->$WorksheetData = $Spreadsheet->getSheet(0);
 		$this->$WeekDays = [1=>'Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
 		$this->$SubjectTimes = [1=>'[08:30-10:05]','[10:15-11:50]','[12:00-13:35]','[14:00-15:35]','[15:45-17:20]','[17:30-19:05]','[19:15-20:50]'];
