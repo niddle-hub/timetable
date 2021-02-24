@@ -18,7 +18,7 @@ class ExcelParser
 	private $HigestRow;
 	private $HigestColumn;
 
-	public function _construct (string $FilePath)
+	public function __construct (string $FilePath)
 	{
 		$this->$FilePath = $FilePath;
 		$this->$Spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($FilePath);
