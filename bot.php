@@ -4,7 +4,7 @@ include 'ExcelParser.php';
 include 'redbeanphp/connect.php';
 use DigitalStar\vk_api\vk_api;
 
-$ExcelParser = new ExcelParser("./documents/schedule.xlsx");
+$ExcelParser = new ExcelParser("documents/schedule.xlsx");
 
 //-- PARAMS --//
 
