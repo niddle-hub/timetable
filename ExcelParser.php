@@ -1,5 +1,5 @@
 <?php
-include 'vendor/autoload.php';
+require_once 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 /**
@@ -48,8 +48,8 @@ class ExcelParser
 			if($temp_name == $group_name){
 				$TimeTable = [];
 				for($i = 1; $i < 8; $i++){
-					$list = $this->WorksheetData->getCell($letter.$digit)->getValue();
-					$digit++;
+					$list = $this->WorksheetData->getCell($letter.$Digit)->getValue();
+					$Digit++;
 					if (empty($list)) $list='-';
 					array_push($TimeTable,$i.'&#8419; '.$this->SubjectTimes[$i]."\n".str_replace("3(", "3 (", $list)."\n");
 				}
