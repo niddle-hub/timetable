@@ -124,6 +124,7 @@ class vk_api {
     protected function sendOK() {
         set_time_limit(0);
         ini_set('display_errors', 'Off');
+        ob_end_clean();
 
         // для Nginx
         if (is_callable('fastcgi_finish_request')) {
@@ -189,7 +190,6 @@ class vk_api {
             $id = isset($this->data->object->from_id) ? $this->data->object->from_id : null;
         }
         if($id == null) {
-            print "Попытка использовать заполнители при передаче id беседы";
             return $message;
         } else {
             if (strpos($message, '%') !== false) {
@@ -450,6 +450,10 @@ class vk_api {
     public function buttonApp($text, $app_id, $owner_id = null, $hash = null, $payload = null) {
         return ['open_app', $payload, $text, $app_id, $owner_id, $hash];
     }
+    
+    public function buttonOpenLink($text, $link, $payload = null) {
+        return ['open_link', $payload, $text, $link];
+    }
 
     public function buttonText($text, $color, $payload = null) {
         return ['text', $payload, $text, $color];
@@ -493,6 +497,11 @@ class vk_api {
                             $keyboard[$i][$j]["action"]["owner_id"] = $button[4];
                         if(isset($button[5]))
                             $keyboard[$i][$j]["action"]["hash"] = $button[5];
+                        break;
+                    }
+                    case 'open_link': {
+                        $keyboard[$i][$j]["action"]["label"] = $button[2];
+                        $keyboard[$i][$j]["action"]["link"] = $button[3];
                         break;
                     }
                 }

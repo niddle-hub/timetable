@@ -11,8 +11,11 @@
 </p> 
 
 # SimpleVK
-[Документация на русском](https://simplevk.scripthub.ru) | [Беседа VK](https://vk.me/join/AJQ1dzQRUQxtfd7zSm4STOmt)
---- | --- |
+[Документация на русском](https://simplevk.scripthub.ru)
+--- |  
+
+[Беседа VK](https://vk.me/join/AJQ1dzQRUQxtfd7zSm4STOmt) | [Telegram](https://t.me/vk_api_chat) | [Discord](https://discord.gg/RFqAWRj)
+--- | --- | --- |
 
 [Блог со статьями](https://scripthub.ru) | [Разработка ботов на заказ](https://vk.me/scripthub)
 --- | --- |
@@ -53,6 +56,21 @@ require_once "vendor/autoload.php"; //Подключаем библиотеку
 ```php
 require_once "simplevk-master/autoload.php"; //Подключаем библиотеку
 ```
+
+## Проверка готовности сервера
+Чтобы убедится, что ваш сервер готов к работе с simplevk, необходимо создать и запустить следующий скрипт:
+```php
+require_once 'vendor/autoload.php';
+\DigitalStar\vk_api\Diagnostics::run();
+```
+> Если вы делаете longpoll бота, то запускайте диагностику через консоль  
+> Если вы делаете callback бота, то запускайте диагностику через браузер
+
+### Примерный вывод диагностики:
+<p align="left">
+  <img src="http://images.vfl.ru/ii/1608248228/eea9ef11/32696142.jpg"/>
+</p>
+
 ## Примеры использования
 Больше примеров есть на [сайте с документацией](https://simplevk.scripthub.ru)  
 Для удобства в каждого бота можно добавлять следущие константы:
@@ -66,8 +84,9 @@ const VERSION = '5.101'; //ваша версия используемого api
 require_once('vendor/autoload.php');
 use DigitalStar\vk_api\vk_api;
 $vk = vk_api::create(VK_KEY, VERSION)->setConfirm(CONFIRM_STR);
-$vk->initVars($id, $message);
-$vk->reply($message);
+$data = $vk->initVars($id, $message, $payload, $user_id, $type); //инициализация переменных
+if($type == 'message_new')
+  $vk->reply($message);
 ```
 #### Простой Callback бот для бесед и сообщества
 ```php
@@ -75,7 +94,7 @@ require_once('vendor/autoload.php');
 use DigitalStar\vk_api\vk_api;
 $vk = vk_api::create(VK_KEY, VERSION)->setConfirm(CONFIRM_STR);
 $vk->debug();
-$vk->initVars($id, $message, $payload); //инициализация переменных
+$data = $vk->initVars($id, $message, $payload, $user_id, $type); //инициализация переменных
 $info_btn = $vk->buttonText('Информация', 'blue', ['command' => 'info']); //создание кнопки
 if ($payload) {
     if($payload['command'] == 'info')
@@ -92,7 +111,7 @@ $vk = vk_api::create('login', 'password', VERSION);//или используйт
 $vk = new LongPoll($vk);
 $vk->listen(function()use($vk){ //longpoll для пользователя
     $vk->on('message_new', function($data)use($vk) { //обработка входящих сообщений
-        $vk->initVars($id, $message);
+        $vk->initVars($id, $message, $payload, $user_id, $type);
         $vk->reply($message);
     });
 });
@@ -105,7 +124,7 @@ use DigitalStar\vk_api\LongPoll;
 $vk = vk_api::create(VK_KEY, '5.101');
 $vk = new LongPoll($vk);
 $vk->listen(function($data)use($vk){ //в $data содержится все данные
-    $vk->initVars($id, $message);
+    $vk->initVars($id, $message, $payload, $user_id, $type);
     $vk->reply($message);
 });
 ```
@@ -118,7 +137,7 @@ use DigitalStar\vk_api\Execute;
 $vk = vk_api::create(VK_KEY, VERSION)->setConfirm(CONFIRM_STR);
 $vk = new Execute($vk);
 $vk->debug();
-$vk->initVars($id, $message); //инициализация переменных
+$data = $vk->initVars($id, $message, $payload, $user_id, $type); //инициализация переменных
 $vk->reply($message); //отвечает пользователю или в беседу
 ```
 #### LongPoll + Execute
@@ -132,7 +151,7 @@ $vk = vk_api::create(VK_KEY, '5.95');
 $vk = new Execute($vk);
 $vk = new LongPoll($vk);
 $vk->listen(function($data)use($vk){ //в $data содержится все данные события, можно убрать, если не нужен
-    $vk->initVars($id, $message);
+    $vk->initVars($id, $message, $payload, $user_id, $type); //инициализация переменных
     $vk->reply($message);
 });
 ```
