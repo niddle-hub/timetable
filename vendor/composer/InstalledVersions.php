@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '0a747549b515486459931cad8de154d492541c6e',
+    'reference' => 'acd3a13475071b8b17b441071f626c1e69763107',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '0a747549b515486459931cad8de154d492541c6e',
+      'reference' => 'acd3a13475071b8b17b441071f626c1e69763107',
     ),
     'digitalstars/simplevk' => 
     array (
